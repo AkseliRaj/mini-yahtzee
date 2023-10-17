@@ -35,13 +35,13 @@ export default Gameboard = ({ navigation, route }) => {
     const dicesRow = [];
     for (let dice = 0; dice < NBR_OF_DICES; dice++) {
         dicesRow.push(
-            <Col key={"dice" + dice}>
+            <Col key={"dice-" + dice}>
                 <Pressable
-                    key={"dice" + dice}
+                    key={"dice-" + dice}
                     onPress={() => selectDice(dice)}>
                     <MaterialCommunityIcons
                     name={board[dice]}
-                    key={"dice" + dice}
+                    key={"dice-" + dice}
                     size={50}
                     color={getDiceColor(dice)}>
                     </MaterialCommunityIcons>
@@ -116,7 +116,7 @@ export default Gameboard = ({ navigation, route }) => {
         for ( let i = 0; i < NBR_OF_DICES; i++ ) {
             if (!selectedDices[i]) {
                 let randomNumber = Math.floor(Math.random() * 6 + 1);
-                board[i] = 'dice' + randomNumber;
+                board[i] = 'dice-' + randomNumber;
                 spots[i] = randomNumber;
             }
         }
