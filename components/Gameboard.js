@@ -1,4 +1,4 @@
-import { Text, View, Pressable} from "react-native";
+import { Text, View, Pressable, ScrollView} from "react-native";
 import Header from './Header';
 import Footer from './Footer';
 import styles from '../style/style';
@@ -54,7 +54,7 @@ export default Gameboard = ({ navigation, route }) => {
     for (let spot = 0; spot < MAX_SPOT; spot++) {
         pointsRow.push(
             <Col key={"pointsRow" + spot}>
-                <Text key={"pointsRow" + spot}>{getSpotTotal(spot)}
+                <Text style={styles.text} key={"pointsRow" + spot}>{getSpotTotal(spot)}
                 </Text>
             </Col>
         );
@@ -141,37 +141,41 @@ export default Gameboard = ({ navigation, route }) => {
     }
 
     function getDiceColor(i){
-        return selectedDices[i] ? "black" : "steelblue";
+        return selectedDices[i] ? "#c19bff" : "white";
     }
 
     function getDicePointsColor(i){
-        return (selectedDicePoints[i] && !gameEndStatus) ? "black" : "steelblue";
+        return (selectedDicePoints[i] && !gameEndStatus) ? "#c19bff" : "white";
     }
 
     return(
         <>
-            <Header/>
-            <View>
-                <Text>Gameboard here.</Text>
-                <Container fluid>
-                    <Row>{dicesRow}</Row>
-                </Container>
-                <Text>Throws left: {nbrOfThrowsLeft}</Text>
-                <Text>{status}</Text>
-                <Pressable
-                    onPress={()=>throwDices()} 
-                    
-                ><Text>THROW DICES</Text>
-                </Pressable>
-                <Container fluid>
-                    <Row>{pointsRow}</Row>
-                </Container>
-                <Container fluid>
-                    <Row>{pointsToSelectRow}</Row>
-                </Container>
-                <Text>Player: {playerName}</Text>
-            </View>
-            <Footer />
+            <ScrollView >
+                <Header/>
+                <View>
+                    <View>
+                        <Container fluid>
+                            <Row>{dicesRow}</Row>
+                        </Container>
+                        <Text style={[styles.text, styles.gameboardText, styles.throwStatus]}>Throws left: {nbrOfThrowsLeft}</Text>
+                        <Text style={[styles.text, styles.gameboardText]}>{status}</Text>
+                        <Pressable
+                            style={styles.button}
+                            onPress={()=>throwDices()} 
+                            
+                        ><Text style={styles.buttonText}>THROW DICES</Text>
+                        </Pressable>
+                        <Container fluid>
+                            <Row>{pointsRow}</Row>
+                        </Container>
+                        <Container fluid>
+                            <Row>{pointsToSelectRow}</Row>
+                        </Container>
+                        <Text style={[styles.text, styles.gameboardText]}>Player name: {playerName}</Text>
+                    </View>
+                </View>
+                <Footer />
+            </ScrollView>
         </>
     )
 }

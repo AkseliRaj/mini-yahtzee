@@ -6,15 +6,15 @@ export default StyleSheet.create({
     backgroundColor: '#fff'
   },
   header: {
-    marginTop: 30,
     marginBottom: 15,
-    backgroundColor: 'skyblue',
+    backgroundColor: '#c19bff',
     flexDirection: 'row',
+    padding: 10,
   },
   footer: {
     marginTop: 20,
-    backgroundColor: 'skyblue',
-    flexDirection: 'row'
+    backgroundColor: '#c19bff',
+    flexDirection: 'row',
   },
   title: {
     color: '#fff',
@@ -52,17 +52,69 @@ export default StyleSheet.create({
     flexDirection: "row"
   },
   button: {
-    margin: 30,
+    marginTop: 30,
+    marginBottom: 30,
     flexDirection: "row",
-    padding: 10,
-    backgroundColor: "#73CED6",
-    width: 150,
+    padding: 13,
+    backgroundColor: "#b59ce0",
+    color: "#ffffff",
+    width: 200,
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center'
   },
   buttonText: {
-    color:"#2B2B52",
+    fontWeight: 'bold',
+    color:"white",
     fontSize: 20
-  }
+  },
+  text: {
+    color:"white",
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  homeText: {
+    paddingTop: 25,
+    paddingBottom: 15,
+  },
+  rulesText:{
+    padding: 10,
+  },
+  ruleTextContainer: {
+    backgroundColor: "#b59ce0",
+    margin: 15,
+    padding: 20,
+    borderRadius: 15,
+
+  }, 
+  textInput: {
+    width: 200,
+    height: 40,
+    backgroundColor: 'white',  
+    borderRadius: 15,         
+    paddingLeft: 20,            
+  },
+  homeContent:{
+    marginTop: 20,
+    marginBottom: 20,
+    alignItems: 'center',
+    flex: 1,
+  },
+  homeContainer:{
+    flex: 1
+  },
+
+
+  gameboardText:{
+    marginTop: 20,
+    marginBottom: 7,
+  },
+
+  throwStatus: {
+    fontSize: 24,
+    marginBottom: 0,
+  },
+
+  
+
 });

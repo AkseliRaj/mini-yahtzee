@@ -13,7 +13,7 @@ export default function App() {
     <NavigationContainer>
       <Tab.Navigator
         // initialRouteName="Home"
-        sceneContainerStyle={{backgroundColor: 'transparent'}}
+        sceneContainerStyle={{backgroundColor: '#dac7ff'}}
         screenOptions={({ route }) => ({
           tabBarIcon: ({focused, color, size }) => {
             let iconName;
@@ -38,7 +38,7 @@ export default function App() {
               color={color}
             />
           },
-          tabBarActiveTintColor: 'steelblue',
+          tabBarActiveTintColor: '#c19bff',
           tabBarInactiveTintColor: 'gray'
         })}
       >
