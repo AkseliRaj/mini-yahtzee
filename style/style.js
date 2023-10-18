@@ -66,7 +66,8 @@ export default StyleSheet.create({
   buttonText: {
     fontWeight: 'bold',
     color:"white",
-    fontSize: 20
+    fontSize: 20,
+    textAlign: 'center'
   },
   text: {
     color:"white",
@@ -108,6 +109,7 @@ export default StyleSheet.create({
   gameboardText:{
     marginTop: 20,
     marginBottom: 7,
+    textAlign: 'center'
   },
 
   throwStatus: {
@@ -115,6 +117,32 @@ export default StyleSheet.create({
     marginBottom: 0,
   },
 
-  
+  throwDicesButton:{
+    margin: 100,
+  },
+
+  pointsRowText:{
+    margin: 9,
+  }  ,
+
+  diceRow: {
+    marginTop: 130,
+    marginBottom: 20,
+  },
+
+  playerName:{
+    marginBottom: 130,
+  },
+
+  scoreboardEmptyText:{
+    margin: 15,
+    textAlign: 'center',
+    fontSize: 20,
+  },
+  scoreboardContainer:{
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 
 });

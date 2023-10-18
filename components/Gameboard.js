@@ -3,9 +3,10 @@ import Header from './Header';
 import Footer from './Footer';
 import styles from '../style/style';
 import { useEffect, useState } from "react";
-import { NBR_OF_DICES, NBR_OF_THROWS, MIN_SPOT, MAX_SPOT, BONUS_POINTS, BONUS_POINTS_LIMIT } from "../constants/Game";
+import { NBR_OF_DICES, NBR_OF_THROWS, MIN_SPOT, MAX_SPOT, BONUS_POINTS, BONUS_POINTS_LIMIT, SCOREBOARD_KEY } from "../constants/Game";
 import { Container, Row, Col } from 'react-native-flex-grid';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 let board = [];
@@ -25,6 +26,8 @@ export default Gameboard = ({ navigation, route }) => {
     const [selectedDicePoints, setSelectedDicePoints] = useState(new Array(MAX_SPOT).fill(false));
     // Kerätyt pisteet
     const [dicePointsTotal, setDicePointsTotal] = useState(new Array(MAX_SPOT).fill(0));
+    //Tulostaulun pisteet
+    const [scores, setScores] = useState([]);
 
     useEffect(() => {
         if (playerName === '' && route.params?.player) {
@@ -32,11 +35,19 @@ export default Gameboard = ({ navigation, route }) => {
         }
     }, []);
 
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            getScoreboardData();
+        });
+        return unsubscribe;
+      }, [navigation]);
+
     const dicesRow = [];
     for (let dice = 0; dice < NBR_OF_DICES; dice++) {
         dicesRow.push(
             <Col key={"dice-" + dice}>
                 <Pressable
+                    style={styles.diceRow}
                     key={"dice-" + dice}
                     onPress={() => selectDice(dice)}>
                     <MaterialCommunityIcons
@@ -54,7 +65,7 @@ export default Gameboard = ({ navigation, route }) => {
     for (let spot = 0; spot < MAX_SPOT; spot++) {
         pointsRow.push(
             <Col key={"pointsRow" + spot}>
-                <Text style={styles.text} key={"pointsRow" + spot}>{getSpotTotal(spot)}
+                <Text style={[styles.text, styles.pointsRowText]} key={"pointsRow" + spot}>{getSpotTotal(spot)}
                 </Text>
             </Col>
         );
@@ -99,6 +110,38 @@ export default Gameboard = ({ navigation, route }) => {
         }
         else {
             setStatus('Throw ' + NBR_OF_THROWS + ' times before setting points');
+        }
+    }
+
+    const savePlayerPoints = async() => {
+        const newKey = scores.length + 1;
+        const playerPoints = {
+            key: newKey,
+            name: playerName,
+            date: 'pvm',            // päivämäärä
+            time: 'kellonaika',     // kellonaika
+            points: 0               // yhteispisteet mahdollinen bonus mukaan
+        }
+        try {
+            const newScore = [...scores, playerPoints];
+            const jsonValue = JSON.stringify(newScore);
+            await AsyncStorage.setItem(SCOREBOARD_KEY, jsonValue);
+        }
+        catch (e) {
+            console.log('Save error: ' + e);
+        }
+    }
+
+    const getScoreboardData = async() => {
+        try {
+            const jsonValue = await AsyncStorage.getItem(SCOREBOARD_KEY);
+            if (jsonValue !== null) {
+                let tmpScores = JSON.parse(jsonValue);
+                setScores(tmpScores);
+            }
+        }
+        catch(e) {
+            console.log('Read error: ' + e);
         }
     }
 
@@ -152,7 +195,7 @@ export default Gameboard = ({ navigation, route }) => {
         <>
             <ScrollView >
                 <Header/>
-                <View>
+                <View styles={styles.gameboardContainer}>
                     <View>
                         <Container fluid>
                             <Row>{dicesRow}</Row>
@@ -160,7 +203,7 @@ export default Gameboard = ({ navigation, route }) => {
                         <Text style={[styles.text, styles.gameboardText, styles.throwStatus]}>Throws left: {nbrOfThrowsLeft}</Text>
                         <Text style={[styles.text, styles.gameboardText]}>{status}</Text>
                         <Pressable
-                            style={styles.button}
+                            style={[styles.button, styles.throwDicesButton]}
                             onPress={()=>throwDices()} 
                             
                         ><Text style={styles.buttonText}>THROW DICES</Text>
@@ -171,7 +214,12 @@ export default Gameboard = ({ navigation, route }) => {
                         <Container fluid>
                             <Row>{pointsToSelectRow}</Row>
                         </Container>
-                        <Text style={[styles.text, styles.gameboardText]}>Player name: {playerName}</Text>
+                        <Pressable
+                            style={[styles.button, styles.throwDicesButton]}
+                            onPress={() => savePlayerPoints()}>
+                                <Text style={styles.buttonText}>SAVE POINTS</Text>
+                        </Pressable>
+                        <Text style={[styles.text, styles.gameboardText, styles.playerName]}>Player name: {playerName}</Text>
                     </View>
                 </View>
                 <Footer />
