@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Text, View, Pressable } from "react-native";
+import { Text, View, Pressable, ScrollView } from "react-native";
 import { DataTable } from "react-native-paper";
 import Header from './Header';
 import Footer from './Footer';
@@ -44,21 +44,21 @@ export default Scoreboard = ({ navigation }) => {
 
 
     return(
+        <ScrollView>
         <>
             <Header />
-            <View>
-                <View style={styles.scoreboardContainer}>
+                <View style={styles.scoreboardBox}>
                     { scores.length === 0 ?
                         <Text style={[styles.text, styles.scoreboardEmptyText]}>Scoreboard is empty</Text>
                         :
                         scores.map((player, index) => (
                             index < NBR_OF_SCOREBOARD_ROWS &&
-                            <DataTable.Row key={player.key}>
-                                <DataTable.Cell><Text>{index + 1}.</Text></DataTable.Cell>
-                                <DataTable.Cell><Text>{player.name}</Text></DataTable.Cell>
-                                <DataTable.Cell><Text>{player.date}</Text></DataTable.Cell>
-                                <DataTable.Cell><Text>{player.time}</Text></DataTable.Cell>
-                                <DataTable.Cell><Text>{player.points}</Text></DataTable.Cell>
+                            <DataTable.Row style={styles.scoreboardBox} key={player.key} >
+                                <DataTable.Cell><Text style={[styles.text, styles.scoreboardText]}>{index + 1}.</Text></DataTable.Cell>
+                                <DataTable.Cell><Text style={[styles.text, styles.scoreboardText]}>{player.name}</Text></DataTable.Cell>
+                                <DataTable.Cell><Text style={[styles.text, styles.scoreboardText]}>{player.date}</Text></DataTable.Cell>
+                                <DataTable.Cell><Text style={[styles.text, styles.scoreboardText]}>{player.time}</Text></DataTable.Cell>
+                                <DataTable.Cell><Text style={[styles.text, styles.scoreboardText]}>{player.points}</Text></DataTable.Cell>
                             </DataTable.Row>
                         ))
 
@@ -66,14 +66,14 @@ export default Scoreboard = ({ navigation }) => {
                 </View>
                 <View>
                     <Pressable
-                    style={styles.button}
+                    style={[styles.button, styles.throwDicesButton]}
                     onPress={()=> clearScoreboard()}>
                         <Text style={styles.buttonText}>CLEAR SCOREBOARD</Text>
                     </Pressable>
 
                 </View>
-            </View>
             <Footer />
         </>
+        </ScrollView>
     )
 }

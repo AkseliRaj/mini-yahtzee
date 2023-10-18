@@ -126,12 +126,12 @@ export default StyleSheet.create({
   }  ,
 
   diceRow: {
-    marginTop: 130,
+    marginTop: 70,
     marginBottom: 20,
   },
 
   playerName:{
-    marginBottom: 130,
+    marginBottom: 70,
   },
 
   scoreboardEmptyText:{
@@ -139,10 +139,12 @@ export default StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
   },
-  scoreboardContainer:{
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+  scoreboardText:{
+    fontSize: 13,
+  },
+  scoreboardBox:{
+    backgroundColor: '"#b59ce0"',
+    textAlign: 'center',
   }
 
 });
